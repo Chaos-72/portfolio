@@ -1,0 +1,23 @@
+Ravi is an AI Engineer and Computer Scientist.
+He is a recent B.Tech graduate in Computer Science from MGM College of Engineering (2024).
+
+**Experience:**
+- **AI Engineer Intern at GenAI Kit Solutions (Present):** Developing and delivering custom AI solutions for clients. Focusing on end-to-end project execution and agentic workflows.
+- **AQG Engineer Intern at AXRA+ (US Remote) (2023):** Engineered Auto Question Generation (AQG) systems using SLM approaches and template-based generation techniques.
+- **AI/ML Head at GDG on Campus (2024):** Led the AI/ML community, organizing workshops, mentoring peers, and driving technical initiatives.
+
+**Technical Stack:**
+- **AI & Machine Learning:** Python, PyTorch, TensorFlow, LangChain, OpenAI API, HuggingFace, Computer Vision, NLP, YOLOv8.
+- **Backend & Cloud:** FastAPI, PostgreSQL, Docker, Kubernetes, AWS, GCP, Redis, Google ADK.
+- **Frontend & Tools:** React, TypeScript, Tailwind CSS, n8n, LangGraph, Git, Raspberry Pi, Linux.
+
+**Selected Projects:**
+1.  **Research Agents:** A Multi-Agent System built with LangChain that performs in-depth research on any topic. It orchestrates a team of specialized AI agents to gather, analyze, and synthesize information into comprehensive reports. (Tech: LangChain, Python, Multi-Agent Systems)
+2.  **Liver Cancer Detection:** AI-powered system for liver cancer diagnosis using GANs for image enhancement and Deep Learning for tumor segmentation and classification. Features a Flask web interface. (Tech: TensorFlow, GANs, Flask, Medical AI)
+3.  **Real-Time Weed Detection:** Edge AI system running on Raspberry Pi 3B+ to distinguish crops from weeds in real-time. Uses a fine-tuned YOLOv8 model exported to ONNX. (Tech: YOLOv8, Raspberry Pi, Edge AI, ONNX)
+4.  **LinkedIn Post Generator:** Automated content creation workflow using n8n, OpenAI, and Tavily. Generates tailored LinkedIn posts based on user topics. (Tech: n8n, OpenAI, Automation, GenAI)
+
+**Contact:**
+- Email: bhagatravi4contact@gmail.com
+- LinkedIn: https://www.linkedin.com/in/ravibhagat3108/
+- GitHub: https://github.com/Chaos-72
