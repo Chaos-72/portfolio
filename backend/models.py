@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from pydantic import BaseModel
 from datetime import datetime
-from database import Base
+from backend.database import Base
 
 # SQLAlchemy Model
 class ContactMessage(Base):

@@ -4,7 +4,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-import models, database
+from backend import models, database
 
 router = APIRouter()
 
@@ -39,19 +39,6 @@ def send_email_notification(message: models.MessageCreate):
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(sender_email, sender_password)
             server.send_message(msg)
-        print("Email notification sent successfully.")
     except Exception as e:
         print(f"Failed to send email: {e}")
-
-@router.post("/contact", response_model=models.MessageResponse)
-def create_message(message: models.MessageCreate, background_tasks: BackgroundTasks, db: Session = Depends(database.get_db)):
-    # 1. Save to Database
-    db_message = models.ContactMessage(**message.dict())
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-
-    # 2. Send Email (in background to not block response)
-    background_tasks.add_task(send_email_notification, message)
-
     return db_message

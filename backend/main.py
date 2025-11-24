@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import engine, Base
-from routes import contact, chat
-from rag import initialize_rag
+from backend.database import engine, Base
+from backend.routes import contact, chat
+from backend.rag import initialize_rag
 
 # Create tables
 Base.metadata.create_all(bind=engine)
