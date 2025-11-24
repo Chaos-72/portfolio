@@ -9,3 +9,4 @@ faiss-cpu==1.13.0
 python-dotenv==1.2.1
 sqlalchemy==2.0.44
 sentence-transformers==5.1.2
+langchain-huggingface==1.0.1
