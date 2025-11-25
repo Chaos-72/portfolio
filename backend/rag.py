@@ -15,18 +15,18 @@ load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-# Global variables to hold the chain
-qa_chain = None
+# Global variables to hold the chains
+qa_chain_gemini = None
+qa_chain_mistral = None
 
 def initialize_rag():
-    global qa_chain
+    global qa_chain_gemini, qa_chain_mistral
     if not GOOGLE_API_KEY:
         print("Warning: GOOGLE_API_KEY not found in environment variables.")
         return
 
     try:
         # 1. Load Data
-        # Use Path to get the absolute path relative to this file
         current_dir = Path(__file__).resolve().parent
         data_path = current_dir / "data" / "portfolio_content.txt"
 
@@ -42,45 +42,61 @@ def initialize_rag():
 
         # 3. Create Embeddings & Vector Store
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
         db = FAISS.from_documents(texts, embeddings)
-
-        # 4. Create Retriever
         retriever = db.as_retriever()
 
-        # 5. Create LLM & Chain
-        llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.7)
-
-        llm = ChatOpenAI(
+        # 4. Create LLMs
+        # Primary: Gemini
+        llm_gemini = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.7)
+        
+        # Fallback: Mistral (OpenRouter)    
+        llm_mistral = ChatOpenAI(
             api_key=os.getenv("OPENROUTER_API_KEY"),
             base_url="https://openrouter.ai/api/v1",
             model="mistralai/mistral-small-3.1-24b-instruct:free"
         )
-        
-    
-        qa_chain = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type="stuff",
-            retriever=retriever,
-            return_source_documents=False
+
+        # 5. Create Chains
+        qa_chain_gemini = RetrievalQA.from_chain_type(
+            llm=llm_gemini, chain_type="stuff", retriever=retriever, return_source_documents=False
         )
-        print("RAG System Initialized Successfully.")
+        qa_chain_mistral = RetrievalQA.from_chain_type(
+            llm=llm_mistral, chain_type="stuff", retriever=retriever, return_source_documents=False
+        )
+
+        print("RAG System Initialized Successfully (Dual Chains).")
     except Exception as e:
         print(f"Error initializing RAG: {e}")
 
 def get_answer(query: str) -> str:
-    if not qa_chain:
+    global qa_chain_gemini, qa_chain_mistral
+    if not qa_chain_gemini:
+        print("Initializing RAG system lazily...")
+        initialize_rag()
+
+    if not qa_chain_gemini:
         return "I'm sorry, my brain (AI backend) isn't fully connected yet. Please check the API key configuration."
     
+    # Prompt engineering
+    system_instruction = "You are an AI assistant for Ravi's portfolio. Answer the following question based on the context provided about Ravi. Be professional, concise, and helpful. If the answer is not in the context, say you don't know but suggest contacting Ravi directly."
+    full_query = f"{system_instruction}\n\nQuestion: {query}"
+
     try:
-        # Prompt engineering to make it sound like Ravi's AI assistant
-        system_instruction = "You are an AI assistant for Ravi's portfolio. Answer the following question based on the context provided about Ravi. Be professional, concise, and helpful. If the answer is not in the context, say you don't know but suggest contacting Ravi directly."
-        full_query = f"{system_instruction}\n\nQuestion: {query}"
-        
-        result = qa_chain.invoke({"query": full_query})
+        # Try Primary (Gemini)
+        print("Trying Gemini...")
+        result = qa_chain_gemini.invoke({"query": full_query})
         return result['result']
     except Exception as e:
-        return f"Error generating answer: {e}"
+        print(f"Gemini failed ({e}), switching to Mistral...")
+        try:
+            # Fallback (Mistral)
+            if qa_chain_mistral:
+                result = qa_chain_mistral.invoke({"query": full_query})
+                return result['result']
+            else:
+                return "Backup brain (Mistral) not initialized."
+        except Exception as e2:
+            return f"Error generating answer (Both models failed): {e2}"
 
 # Initialize on import (or call explicitly in main.py startup event)
 # initialize_rag() 

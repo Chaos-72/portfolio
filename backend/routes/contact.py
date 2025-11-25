@@ -41,4 +41,16 @@ def send_email_notification(message: models.MessageCreate):
             server.send_message(msg)
     except Exception as e:
         print(f"Failed to send email: {e}")
+
+@router.post("/contact", response_model=models.MessageResponse)
+def create_message(message: models.MessageCreate, background_tasks: BackgroundTasks, db: Session = Depends(database.get_db)):
+    # 1. Save to Database
+    db_message = models.ContactMessage(**message.dict())
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+
+    # 2. Send Email (in background to not block response)
+    background_tasks.add_task(send_email_notification, message)
+
     return db_message

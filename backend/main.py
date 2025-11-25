@@ -9,9 +9,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Ravi Portfolio API")
 
-@app.on_event("startup")
-async def startup_event():
-    initialize_rag()
+# Startup event removed for lazy loading
 
 # CORS
 app.add_middleware(
