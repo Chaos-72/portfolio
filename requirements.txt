@@ -1,6 +1,32 @@
+# ORIGINAL REQUIREMENTS (backup - uncomment to revert):
+# fastapi==0.121.0
+# uvicorn==0.38.0
+# pydantic==2.12.4
+# langchain==1.0.8
+# langchain-community==0.4.1
+# langchain-core==1.1.0
+# langchain-google-genai==3.1.0
+# langchain-huggingface==1.0.1
+# langchain-openai==1.0.3
+# langchain-text-splitters==1.0.0
+# langchain-classic==1.0.0
+# faiss-cpu==1.13.0
+# python-dotenv==1.2.1
+# sqlalchemy==2.0.44
+# sentence-transformers==5.1.2
+# email-validator==2.1.0.post1
+# dnspython==2.4.2
+
+# NEW REQUIREMENTS (CPU-only PyTorch to avoid Railway timeout):
 fastapi==0.121.0
 uvicorn==0.38.0
 pydantic==2.12.4
+
+# Install CPU-only PyTorch FIRST (prevents 3.5GB CUDA version download)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.9.1+cpu
+
+# The rest of the dependencies
 langchain==1.0.8
 langchain-community==0.4.1
 langchain-core==1.1.0
