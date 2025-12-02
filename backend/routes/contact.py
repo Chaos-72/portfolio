@@ -66,51 +66,102 @@ rate_limiter = RateLimiter()
 #     except Exception as e:
 #         print(f"Failed to send email: {e}")
 
-# NEW CODE (Secure & Better Formatting):
+# ORIGINAL CODE - SMTP VERSION (backup - uncomment to revert):
+# def send_email_notification(message: models.MessageCreate):
+#     sender_email = os.getenv("EMAIL_USER")
+#     sender_password = os.getenv("EMAIL_PASSWORD")
+#     receiver_email = sender_email # Send to self
+# 
+#     if not sender_email or not sender_password:
+#         print("Email credentials not found. Skipping email notification.")
+#         return
+# 
+#     subject = f"New Portfolio Message from {message.name}"
+#     
+#     # Improved email body with clear sender info
+#     body = f"""
+#     You have received a new message from your portfolio website.
+#     
+#     --------------------------------------------------
+#     SENDER DETAILS
+#     --------------------------------------------------
+#     Name:    {message.name}
+#     Email:   {message.email}
+#     --------------------------------------------------
+#     
+#     MESSAGE:
+#     
+#     {message.message}
+#     
+#     --------------------------------------------------
+#     To reply, simply hit 'Reply' in your email client.
+#     The reply will go directly to {message.email}.
+#     """
+# 
+#     msg = MIMEMultipart()
+#     msg['From'] = f"Portfolio Contact <{sender_email}>" # Clearer sender name
+#     msg['To'] = receiver_email
+#     msg['Subject'] = subject
+#     msg['Reply-To'] = message.email  # Keeps the reply-to functionality
+#     msg.attach(MIMEText(body, 'plain'))
+# 
+#     try:
+#         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+#             server.login(sender_email, sender_password)
+#             server.send_message(msg)
+#     except Exception as e:
+#         print(f"Failed to send email: {e}")
+
+# NEW CODE (Resend API - works on Railway):
 def send_email_notification(message: models.MessageCreate):
-    sender_email = os.getenv("EMAIL_USER")
-    sender_password = os.getenv("EMAIL_PASSWORD")
-    receiver_email = sender_email # Send to self
-
-    if not sender_email or not sender_password:
-        print("Email credentials not found. Skipping email notification.")
+    import resend
+    
+    resend_api_key = os.getenv("RESEND_API_KEY")
+    receiver_email = os.getenv("RECEIVER_EMAIL", "bhagatravi4contact@gmail.com")  # Your email
+    
+    if not resend_api_key:
+        print("Resend API key not found. Skipping email notification.")
         return
-
+    
+    resend.api_key = resend_api_key
+    
     subject = f"New Portfolio Message from {message.name}"
     
-    # Improved email body with clear sender info
-    body = f"""
-    You have received a new message from your portfolio website.
-    
-    --------------------------------------------------
-    SENDER DETAILS
-    --------------------------------------------------
-    Name:    {message.name}
-    Email:   {message.email}
-    --------------------------------------------------
-    
-    MESSAGE:
-    
-    {message.message}
-    
-    --------------------------------------------------
-    To reply, simply hit 'Reply' in your email client.
-    The reply will go directly to {message.email}.
+    # Email body in HTML format for better formatting
+    html_body = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color: #4F46E5;">New Message from Portfolio</h2>
+        
+        <div style="background-color: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="color: #1F2937; margin-top: 0;">Sender Details</h3>
+            <p><strong>Name:</strong> {message.name}</p>
+            <p><strong>Email:</strong> <a href="mailto:{message.email}">{message.email}</a></p>
+        </div>
+        
+        <div style="background-color: #FFFFFF; padding: 20px; border-left: 4px solid #4F46E5; margin: 20px 0;">
+            <h3 style="color: #1F2937; margin-top: 0;">Message</h3>
+            <p style="white-space: pre-wrap;">{message.message}</p>
+        </div>
+        
+        <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">
+            To reply, simply hit 'Reply' in your email client. The reply will go directly to {message.email}.
+        </p>
+    </body>
+    </html>
     """
-
-    msg = MIMEMultipart()
-    msg['From'] = f"Portfolio Contact <{sender_email}>" # Clearer sender name
-    msg['To'] = receiver_email
-    msg['Subject'] = subject
-    msg['Reply-To'] = message.email  # Keeps the reply-to functionality
-    msg.attach(MIMEText(body, 'plain'))
-
+    
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-            server.login(sender_email, sender_password)
-            server.send_message(msg)
+        resend.Emails.send({
+            "from": "Portfolio Contact <onboarding@resend.dev>",  # Resend's default sender
+            "to": receiver_email,
+            "subject": subject,
+            "html": html_body,
+            "reply_to": message.email  # Keeps reply-to functionality
+        })
+        print(f"Email sent successfully via Resend to {receiver_email}")
     except Exception as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send email via Resend: {e}")
 
 # ORIGINAL CODE (backup - uncomment to revert):
 # @router.post("/contact", response_model=models.MessageResponse)
