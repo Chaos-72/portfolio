@@ -58,55 +58,27 @@ def initialize_rag():
             max_retries=0  # Don't retry - fail fast and switch to Mistral immediately
         )
         
-        # Fallback 1: Mistral (OpenRouter)    
+        # Fallback: Mistral (OpenRouter)    
         llm_mistral = ChatOpenAI(
             api_key=os.getenv("OPENROUTER_API_KEY"),
             base_url="https://openrouter.ai/api/v1",
             model="mistralai/mistral-small-3.1-24b-instruct:free"
         )
 
-        # Fallback 2: NVIDIA NIM (Llama 3)
-        from langchain_nvidia_ai_endpoints import ChatNVIDIA
-        llm_nvidia = ChatNVIDIA(
-            model="mistralai/mistral-large-3-675b-instruct-2512",
-            api_key=os.getenv("NVIDIA_API_KEY"), 
-            temperature=0.7
-        )
-
-        # Fallback 3: Groq (Llama 3)
-        from langchain_groq import ChatGroq
-        llm_groq = ChatGroq(
-            model="llama-3.3-70b-versatile",
-            api_key=os.getenv("GROQ_API_KEY"),
-            temperature=0.7
-        )
-
         # 5. Create Chains
         qa_chain_gemini = RetrievalQA.from_chain_type(
             llm=llm_gemini, chain_type="stuff", retriever=retriever, return_source_documents=False
-        )   
+        )
         qa_chain_mistral = RetrievalQA.from_chain_type(
             llm=llm_mistral, chain_type="stuff", retriever=retriever, return_source_documents=False
         )
-        # We can reuse the retriever for all chains
-        global qa_chain_nvidia, qa_chain_groq
-        qa_chain_nvidia = RetrievalQA.from_chain_type(
-            llm=llm_nvidia, chain_type="stuff", retriever=retriever, return_source_documents=False
-        )
-        qa_chain_groq = RetrievalQA.from_chain_type(
-            llm=llm_groq, chain_type="stuff", retriever=retriever, return_source_documents=False
-        )
 
-        print("RAG System Initialized Successfully (Quadruple Chains).")
+        print("RAG System Initialized Successfully (Dual Chains).")
     except Exception as e:
         print(f"Error initializing RAG: {e}")
 
-# Global variables for new chains
-qa_chain_nvidia = None
-qa_chain_groq = None
-
 def get_answer(query: str) -> str:
-    global qa_chain_gemini, qa_chain_mistral, qa_chain_nvidia, qa_chain_groq
+    global qa_chain_gemini, qa_chain_mistral
     if not qa_chain_gemini:
         print("Initializing RAG system lazily...")
         initialize_rag()
@@ -118,36 +90,32 @@ def get_answer(query: str) -> str:
     system_instruction = "You are an AI assistant for Ravi's portfolio. Answer the following question based on the context provided about Ravi. Be professional, concise, and helpful. If the answer is not in the context, say you don't know but suggest contacting Ravi directly."
     full_query = f"{system_instruction}\n\nQuestion: {query}"
 
-    # Helper function to try a chain
-    def try_chain(chain, name):
-        if not chain:
-            raise ValueError(f"{name} chain not initialized")
-        print(f"Trying {name}...")
-        return chain.invoke({"query": full_query})['result']
-
-    # 1. Try Gemini
     try:
-        return try_chain(qa_chain_gemini, "Gemini")
+        # Try Primary (Gemini)
+        print("Trying Gemini...")
+        result = qa_chain_gemini.invoke({"query": full_query})
+        return result['result']
     except Exception as e:
-        print(f"Gemini failed: {e}")
+        # ORIGINAL CODE (backup - uncomment to revert):
+        # print(f"Gemini failed ({e}), switching to Mistral...")
         
-        # 2. Try Mistral
+        # NEW CODE (Better error detection):
+        error_msg = str(e)
+        # Check if it's a quota/rate limit error (429)
+        if "429" in error_msg or "quota" in error_msg.lower() or "ResourceExhausted" in error_msg:
+            print(f"Gemini quota exceeded (instant fallback to Mistral)")
+        else:
+            print(f"Gemini failed ({e}), switching to Mistral...")
+        
         try:
-            return try_chain(qa_chain_mistral, "Mistral")
+            # Fallback (Mistral)
+            if qa_chain_mistral:
+                result = qa_chain_mistral.invoke({"query": full_query})
+                return result['result']
+            else:
+                return "Backup brain (Mistral) not initialized."
         except Exception as e2:
-            print(f"Mistral failed: {e2}")
-            
-            # 3. Try NVIDIA
-            try:
-                return try_chain(qa_chain_nvidia, "NVIDIA")
-            except Exception as e3:
-                print(f"NVIDIA failed: {e3}")
-                
-                # 4. Try Groq
-                try:
-                    return try_chain(qa_chain_groq, "Groq")
-                except Exception as e4:
-                    return f"All AI models failed. Please try again later. (Error: {e4})"
+            return f"Error generating answer (Both models failed): {e2}"
 
 # Initialize on import (or call explicitly in main.py startup event)
 # initialize_rag() 
