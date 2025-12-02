@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Code2, Brain, Database, Terminal, Cpu, Globe } from 'lucide-react'
+import { Brain, Database, Globe } from 'lucide-react'
 
 const skillCategories = [
     {
