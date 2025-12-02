@@ -32,7 +32,12 @@ export default function Contact() {
                                 const data = Object.fromEntries(formData)
 
                                 try {
-                                    const res = await fetch('http://localhost:8000/api/contact', {
+                                    // ORIGINAL CODE (backup - uncomment to revert):
+                                    // const res = await fetch('http://localhost:8000/api/contact', {
+
+                                    // NEW CODE (for deployment):
+                                    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                                    const res = await fetch(`${apiUrl}/api/contact`, {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(data),

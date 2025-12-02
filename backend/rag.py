@@ -47,7 +47,16 @@ def initialize_rag():
 
         # 4. Create LLMs
         # Primary: Gemini
-        llm_gemini = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.7)
+        # ORIGINAL CODE (backup - uncomment to revert):
+        # llm_gemini = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.7)
+        
+        # NEW CODE (Fast fallback - no retries on quota errors):
+        llm_gemini = ChatGoogleGenerativeAI(
+            model="gemini-2.0-flash", 
+            google_api_key=GOOGLE_API_KEY, 
+            temperature=0.7,
+            max_retries=0  # Don't retry - fail fast and switch to Mistral immediately
+        )
         
         # Fallback: Mistral (OpenRouter)    
         llm_mistral = ChatOpenAI(
@@ -87,7 +96,17 @@ def get_answer(query: str) -> str:
         result = qa_chain_gemini.invoke({"query": full_query})
         return result['result']
     except Exception as e:
-        print(f"Gemini failed ({e}), switching to Mistral...")
+        # ORIGINAL CODE (backup - uncomment to revert):
+        # print(f"Gemini failed ({e}), switching to Mistral...")
+        
+        # NEW CODE (Better error detection):
+        error_msg = str(e)
+        # Check if it's a quota/rate limit error (429)
+        if "429" in error_msg or "quota" in error_msg.lower() or "ResourceExhausted" in error_msg:
+            print(f"Gemini quota exceeded (instant fallback to Mistral)")
+        else:
+            print(f"Gemini failed ({e}), switching to Mistral...")
+        
         try:
             # Fallback (Mistral)
             if qa_chain_mistral:

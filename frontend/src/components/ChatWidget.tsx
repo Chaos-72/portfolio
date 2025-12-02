@@ -35,7 +35,12 @@ export default function ChatWidget() {
         setIsLoading(true)
 
         try {
-            const response = await fetch('http://localhost:8000/api/chat', {
+            // ORIGINAL CODE (backup - uncomment to revert):
+            // const response = await fetch('http://localhost:8000/api/chat', {
+
+            // NEW CODE (for deployment):
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${apiUrl}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: userMessage }),
