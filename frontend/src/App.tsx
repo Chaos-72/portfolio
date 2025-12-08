@@ -9,6 +9,9 @@ import Contact from "./components/Contact"
 import Footer from "./components/Footer"
 import ChatWidget from "./components/ChatWidget"
 
+import Certifications from "./components/Certifications"
+import Publications from "./components/Publications"
+
 function App() {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -18,7 +21,9 @@ function App() {
                     <Hero />
                     <TechMarquee />
                     <Stack />
+                    <Certifications />
                     <Work />
+                    <Publications />
                     <About />
                     <Contact />
                 </main>

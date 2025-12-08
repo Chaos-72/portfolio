@@ -1,33 +1,46 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
+import ExperienceModal from './ExperienceModal'
+import { experienceDetails } from '../data/experienceContent'
 
 const timeline = [
     {
         year: "Present",
         title: "AI Engineer Intern",
         company: "GenAIKit Solutions",
-        description: "Developing and delivering custom AI solutions for clients. Focusing on end-to-end project execution and agentic workflows."
+        description: "Developing and delivering custom AI solutions for clients. Focusing on end-to-end project execution and agentic workflows.",
+        key: "genaiKit"
     },
     {
         year: "2025",
         title: "AQG Engineer Intern",
         company: "AksharaPlus (US Remote)",
-        description: "Engineered Auto Question Generation (AQG) systems using SLM approaches and template-based generation techniques."
+        description: "Engineered Auto Question Generation (AQG) systems using SLM approaches and template-based generation techniques.",
+        key: "aksharaPlus"
     },
     {
         year: "2024",
         title: "AI/ML Head",
         company: "GDG on Campus",
-        description: "Led the AI/ML community, organizing workshops, mentoring peers, and driving technical initiatives on campus."
+        description: "Led the AI/ML community, organizing workshops, mentoring peers, and driving technical initiatives on campus.",
+        key: "gdscLeadership"
     },
     {
         year: "2024",
         title: "B.Tech in Computer Science",
         company: "MGM's College of Engineering",
-        description: "Graduated with a focus on Artificial Intelligence and Deep Learning. Built a strong foundation in computer science principles."
+        description: "Graduated with a focus on Artificial Intelligence and Deep Learning. Built a strong foundation in computer science principles.",
+        key: "education"
     }
 ]
 
 export default function About() {
+    const [selectedExperience, setSelectedExperience] = useState<string | null>(null)
+
+    const handleItemClick = (key: string) => {
+        setSelectedExperience(key)
+    }
+
     return (
         <section id="about" className="py-20 px-4 bg-muted/30">
             <div className="container mx-auto max-w-4xl">
@@ -60,16 +73,22 @@ export default function About() {
                                 <div className="absolute left-4 md:left-1/2 -translate-x-[5px] w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background z-10 mt-1.5" />
 
                                 {/* Content */}
-                                <div className="ml-12 md:ml-0 md:w-1/2 px-4">
+                                <div
+                                    className="ml-12 md:ml-0 md:w-1/2 px-4 cursor-pointer group"
+                                    onClick={() => handleItemClick(item.key)}
+                                >
                                     <div className={`flex flex-col ${index % 2 === 0 ? "md:items-start" : "md:items-end"}`}>
                                         <span className="inline-block px-2 py-1 mb-2 text-xs font-mono font-bold text-primary bg-primary/10 rounded">
                                             {item.year}
                                         </span>
-                                        <h3 className="text-xl font-bold mb-1">{item.title}</h3>
+                                        <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
                                         <p className="text-sm font-medium text-foreground/80 mb-2">{item.company}</p>
                                         <p className={`text-muted-foreground text-sm ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
                                             {item.description}
                                         </p>
+                                        <button className="mt-2 text-xs text-primary hover:underline">
+                                            Click for details →
+                                        </button>
                                     </div>
                                 </div>
                             </motion.div>
@@ -77,6 +96,15 @@ export default function About() {
                     </div>
                 </div>
             </div>
+
+            {/* Experience Modal */}
+            {selectedExperience && (
+                <ExperienceModal
+                    isOpen={!!selectedExperience}
+                    onClose={() => setSelectedExperience(null)}
+                    experience={experienceDetails[selectedExperience as keyof typeof experienceDetails]}
+                />
+            )}
         </section>
     )
 }
