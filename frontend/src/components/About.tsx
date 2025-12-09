@@ -15,7 +15,7 @@ const timeline = [
         year: "2025",
         title: "AQG Engineer Intern",
         company: "AksharaPlus (US Remote)",
-        description: "Engineered Auto Question Generation (AQG) systems using SLM approaches and template-based generation techniques.",
+        description: "Engineered Auto Question Generation (AQG) systems using python and template-based generation techniques.",
         key: "aksharaPlus"
     },
     {
@@ -47,7 +47,7 @@ export default function About() {
                 <div className="mb-16 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
-                        I am a recent Computer Science graduate and an aspiring AI Engineer named Ravi.
+                        I am Ravi, a recent Computer Science graduate and an aspiring AI Engineer.
                         My journey is defined by hands-on experience in building intelligent systems,
                         from Auto Question Generation to custom client solutions.
                         I am passionate about AI & ML and currently seeking opportunities to build the brains of tomorrow.

@@ -21,8 +21,8 @@ const projects = [
         description: "Intelligent database assistant that translates natural language queries into SQL. Built with LangChain and LLMs to enable non-technical users to interact with databases seamlessly.",
         tags: ["LangChain", "SQL", "LLM", "Python"],
         image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2072&auto=format&fit=crop",
-        link: "#", // Add your GitHub link
-        github: "#",
+        link: "https://github.com/Chaos-72/SQL-Agent", // Add your GitHub link
+        github: "https://github.com/Chaos-72/SQL-Agent",
         size: "small", // 1x1
         featured: true
     },
@@ -32,8 +32,8 @@ const projects = [
         description: "End-to-end automation system that manages email workflows and calendar scheduling using AI. Integrates with Gmail API and Google Calendar for intelligent task management.",
         tags: ["Python", "Gmail API", "Automation", "AI"],
         image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2070&auto=format&fit=crop",
-        link: "#", // Add your GitHub link
-        github: "#",
+        link: "https://github.com/Chaos-72/Email-Automation-System", // Add your GitHub link
+        github: "https://github.com/Chaos-72/Email-Automation-System",
         size: "small", // 1x1
         featured: true
     },
@@ -43,8 +43,8 @@ const projects = [
         description: "Advanced Retrieval-Augmented Generation system that processes text, images, and documents. Enables intelligent information retrieval across multiple data modalities for comprehensive question answering.",
         tags: ["RAG", "Multimodal AI", "LangChain", "Vector DB"],
         image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
-        link: "#", // Add your GitHub link
-        github: "#",
+        link: "https://github.com/Chaos-72/Multi-model-RAG-System", // Add your GitHub link
+        github: "https://github.com/Chaos-72/Multi-model-RAG-System",
         size: "wide", // 2x1
         featured: true
     },
@@ -62,7 +62,7 @@ const projects = [
     },
     {
         id: 6,
-        title: "Real-Time Weed Detection",
+        title: "Weed Detection",
         description: "Edge AI system running on Raspberry Pi 3B+ to distinguish crops from weeds in real-time. Uses a fine-tuned YOLOv8 model exported to ONNX for efficient offline inference in the field.",
         tags: ["YOLOv8", "Raspberry Pi", "Edge AI", "ONNX"],
         image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=2070&auto=format&fit=crop",

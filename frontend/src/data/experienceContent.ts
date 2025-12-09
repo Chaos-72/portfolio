@@ -3,12 +3,12 @@ export const experienceDetails = {
     gdscLeadership: {
         title: "AI/ML Head",
         organization: "Google Developer Groups (GDG)",
-        period: "2023 - 2024",
+        period: "2024 - 2025",
         description: `As the AI/ML Head of Google Developer Groups on campus, I spearheaded initiatives to democratize artificial intelligence education and foster a vibrant tech community among students.
 
-I designed and conducted comprehensive workshops on AI, Machine Learning, and Generative AI, breaking down complex concepts into digestible learning modules for over 100 junior students. These sessions covered fundamental concepts, hands-on coding exercises, and real-world applications of AI technologies.
+I designed and conducted comprehensive workshops on AI, Machine Learning, and Generative AI, breaking down complex concepts into digestible learning modules for junior students. These sessions covered fundamental concepts, hands-on coding exercises, and real-world applications of AI technologies.
 
-My role extended beyond teaching—I mentored peers through their AI projects, organized guest lectures with industry professionals, and coordinated study groups that explored cutting-edge research papers. I also represented our club at inter-college tech events, showcasing student projects and building connections with the broader developer community.
+My role extended beyond teaching—I mentored peers through their AI projects, organized guest lectures with industry professionals, and coordinated study groups that explored cutting-edge research papers.
 
 Through this leadership position, I learned the importance of making AI accessible to everyone, regardless of their technical background. The experience honed my ability to explain complex technical concepts clearly and inspired many students to pursue careers in AI.`,
         highlights: [
@@ -23,7 +23,7 @@ Through this leadership position, I learned the importance of making AI accessib
     education: {
         title: "Bachelor of Technology in Computer Science",
         organization: "MGM's College of Engineering",
-        period: "2020 - 2024",
+        period: "2021 - 2025",
         description: `My BTech journey was characterized by active participation in the tech ecosystem beyond classroom learning. I immersed myself in various competitions, workshops, and community initiatives that shaped my understanding of real-world software engineering.
 
 As part of the Hackathon Management Committee, I gained firsthand experience in organizing large-scale coding events, from logistics planning to mentoring participants and judging submissions. This role taught me about event management, team coordination, and the dynamics of competitive programming.
@@ -45,7 +45,7 @@ A memorable highlight was attending an International Conference on Data Analytic
     aksharaPlus: {
         title: "AI Engineering Intern",
         organization: "AksharaPlus",
-        period: "2024",
+        period: "Jan - July 2025",
         description: `At AksharaPlus, I contributed to building an intelligent educational platform that delivers personalized study materials, courses, and assessments to students.
 
 My primary project involved developing an Auto-Question Generation system for SQL assessments. Working in a team of three, we engineered a dynamic question generation engine that creates unique SQL queries by intelligently replacing placeholders in predefined templates. This system generates both questions and their corresponding answers, ensuring consistency and accuracy.
@@ -64,7 +64,7 @@ To ensure reliability, I implemented comprehensive testing using pytest, validat
     genaiKit: {
         title: "AI Engineer Intern",
         organization: "GenAIKit Solutions (Jain)",
-        period: "2024 - Present",
+        period: "Sept 2025 - Present",
         description: `Currently working at GenAIKit Solutions, where I take ownership of complete AI projects from conception to deployment. I receive project requirements from senior engineers and independently architect, develop, and deliver full-stack AI solutions.
 
 My work spans diverse domains including intelligent automation, conversational AI, and multimodal systems. I've built an Email Automation system that streamlines communication workflows, developed an SQL Agent that enables natural language database queries, and created a Multimodal RAG (Retrieval-Augmented Generation) system that processes and retrieves information across text, images, and documents.
@@ -109,7 +109,7 @@ export const certificatesData = [
             "Complex AI pipelines"
         ],
         certificateImage: "https://upload.wikimedia.org/wikipedia/commons/6/60/LangChain_Logo.svg",
-        link: "https://drive.google.com/file/d/1RiC_uO8llvfXHxW3ft_IEWZ_jbH5do_q/view?usp=sharing"
+        link: "https://academy.langchain.com/certificates/xdfkkl1ecn"
     },
     {
         title: "Data Analysis with Python",
