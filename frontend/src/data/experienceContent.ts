@@ -2,9 +2,9 @@
 export const experienceDetails = {
     gdscLeadership: {
         title: "AI/ML Head",
-        organization: "Google Developer Student Club (GDSC)",
+        organization: "Google Developer Groups (GDG)",
         period: "2023 - 2024",
-        description: `As the AI/ML Head of Google Developer Student Club on campus, I spearheaded initiatives to democratize artificial intelligence education and foster a vibrant tech community among students.
+        description: `As the AI/ML Head of Google Developer Groups on campus, I spearheaded initiatives to democratize artificial intelligence education and foster a vibrant tech community among students.
 
 I designed and conducted comprehensive workshops on AI, Machine Learning, and Generative AI, breaking down complex concepts into digestible learning modules for over 100 junior students. These sessions covered fundamental concepts, hands-on coding exercises, and real-world applications of AI technologies.
 
@@ -12,8 +12,8 @@ My role extended beyond teaching—I mentored peers through their AI projects, o
 
 Through this leadership position, I learned the importance of making AI accessible to everyone, regardless of their technical background. The experience honed my ability to explain complex technical concepts clearly and inspired many students to pursue careers in AI.`,
         highlights: [
-            "Led AI/ML initiatives as GDSC Head",
-            "Conducted workshops for 100+ students on AI, ML, and GenAI",
+            "Led AI/ML initiatives as GDG Head",
+            "Conducted workshops for students on AI, ML, and GenAI",
             "Organized guest lectures and tech events",
             "Mentored peers on AI projects and research",
             "Built a thriving AI learning community on campus"
@@ -48,7 +48,7 @@ A memorable highlight was attending an International Conference on Data Analytic
         period: "2024",
         description: `At AksharaPlus, I contributed to building an intelligent educational platform that delivers personalized study materials, courses, and assessments to students.
 
-My primary project involved developing an Auto-Question Generation system for SQL assessments. Working in a team of three (with Utkarsha and Shradha), we engineered a dynamic question generation engine that creates unique SQL queries by intelligently replacing placeholders in predefined templates. This system generates both questions and their corresponding answers, ensuring consistency and accuracy.
+My primary project involved developing an Auto-Question Generation system for SQL assessments. Working in a team of three, we engineered a dynamic question generation engine that creates unique SQL queries by intelligently replacing placeholders in predefined templates. This system generates both questions and their corresponding answers, ensuring consistency and accuracy.
 
 To ensure reliability, I implemented comprehensive testing using pytest, validating question generation logic, answer correctness, and edge cases. This work directly contributed to the platform's ability to scale personalized SQL learning experiences for thousands of students.`,
         highlights: [
@@ -86,7 +86,7 @@ export const certificatesData = [
     {
         title: "5-Day AI Agents Intensive",
         issuer: "Google & Kaggle",
-        completionDate: null,
+        completionDate: "November 2025",
         description: "Agentic AI, ADK, MCP, A2A systems",
         skillsGained: [
             "Agentic AI architecture",
@@ -100,7 +100,7 @@ export const certificatesData = [
     {
         title: "LangGraph Essentials",
         issuer: "LangGraph",
-        completionDate: "October 2024",
+        completionDate: "October 2025",
         description: "Stateful multi-actor applications",
         skillsGained: [
             "AI workflow orchestration",
@@ -114,7 +114,7 @@ export const certificatesData = [
     {
         title: "Data Analysis with Python",
         issuer: "CognitiveClass.ai (IBM)",
-        completionDate: "August 2024",
+        completionDate: "August 2025",
         description: "Data processing, cleaning, and analytics",
         skillsGained: [
             "Data cleaning and preprocessing",
@@ -128,7 +128,7 @@ export const certificatesData = [
     {
         title: "Supervised ML: Regression & Classification",
         issuer: "DeepLearning.AI",
-        completionDate: "August 2024",
+        completionDate: "September 2024",
         description: "Core ML algorithms and theory",
         skillsGained: [
             "Supervised learning fundamentals",
